@@ -1,0 +1,8 @@
+../Drivers/CMSIS/Include/core_cm4.h:1684:22:__NVIC_EnableIRQ	2
+../Core/Src/main.c:14:6:uart_tx_init	1
+../Core/Src/main.c:49:6:delay_ms	3
+../Core/Src/main.c:55:6:uart_write	2
+../Core/Src/main.c:61:6:string_write	2
+../Core/Src/main.c:70:9:uart_read	2
+../Core/Src/main.c:77:6:USART2_IRQHandler	4
+../Core/Src/main.c:89:5:main	1

@@ -1,0 +1,8 @@
+../Drivers/CMSIS/Include/core_cm4.h:1684:22:__NVIC_EnableIRQ	16	static,ignoring_inline_asm
+../Core/Src/main.c:14:6:uart_tx_init	8	static
+../Core/Src/main.c:49:6:delay_ms	24	static
+../Core/Src/main.c:55:6:uart_write	16	static
+../Core/Src/main.c:61:6:string_write	16	static
+../Core/Src/main.c:70:9:uart_read	4	static
+../Core/Src/main.c:77:6:USART2_IRQHandler	4	static
+../Core/Src/main.c:89:5:main	16	static

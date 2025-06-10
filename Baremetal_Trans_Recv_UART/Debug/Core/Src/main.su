@@ -1,0 +1,7 @@
+../Core/Src/main.c:9:6:uart_tx_init	4	static
+../Core/Src/main.c:40:6:delay_ms	24	static
+../Core/Src/main.c:46:6:uart_write	16	static
+../Core/Src/main.c:52:6:string_write	16	static
+../Core/Src/main.c:61:9:uart_read	4	static
+../Core/Src/main.c:71:6:string_read	4	static
+../Core/Src/main.c:81:5:main	16	static
