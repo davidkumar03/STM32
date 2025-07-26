@@ -1,0 +1,2 @@
+../Core/Src/tim.c:14:6:tim3_pc6_output_compare	4	static
+../Core/Src/tim.c:44:6:tim2_pa15_input_capture	4	static

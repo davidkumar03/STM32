@@ -1,0 +1,5 @@
+../Core/Src/main.c:6:6:Timer1_PB14_PWM_config	1
+../Core/Src/main.c:22:6:TIMER1_PB14_set_dutycycle	5
+../Core/Src/main.c:44:6:Timer1_PB15_PWM_config	1
+../Core/Src/main.c:62:6:TIMER1_PB15_set_dutycycle	5
+../Core/Src/main.c:82:5:main	7
