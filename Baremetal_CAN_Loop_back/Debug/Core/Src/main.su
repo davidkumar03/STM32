@@ -1,0 +1,5 @@
+../Core/Src/main.c:11:6:uart_tx_init	4	static
+../Core/Src/main.c:42:6:uart_write	24	static
+../Core/Src/main.c:54:6:CAN1_init	4	static
+../Core/Src/main.c:115:6:CAN1_Transmit	16	static
+../Core/Src/main.c:149:5:main	16	static
