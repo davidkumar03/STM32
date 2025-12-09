@@ -1,0 +1,5 @@
+../Core/Src/main.c:8:5:main	1
+../Core/Src/main.c:19:6:uart2_init	1
+../Core/Src/main.c:38:6:uart2_write	2
+../Core/Src/main.c:44:6:uart2_write_string	2
+../Core/Src/main.c:50:6:delay_ms	2
