@@ -1,0 +1,5 @@
+../Core/Src/main.c:12:6:uart_tx_init	1
+../Core/Src/main.c:43:6:uart_write	3
+../Core/Src/main.c:55:6:CAN1_init	3
+../Core/Src/main.c:114:6:CAN1_Transmit	3
+../Core/Src/main.c:146:5:main	2
