@@ -1,0 +1,7 @@
+../Core/Src/lcd.c:22:6:lcd_write_i2c	6
+../Core/Src/lcd.c:49:6:lcd_send_cmd	1
+../Core/Src/lcd.c:62:6:lcd_send_data	1
+../Core/Src/lcd.c:75:6:setCursor	6
+../Core/Src/lcd.c:88:6:lcd_send_string	2
+../Core/Src/lcd.c:92:6:lcd_init	1
+../Core/Src/lcd.c:119:6:lcd_clear	1

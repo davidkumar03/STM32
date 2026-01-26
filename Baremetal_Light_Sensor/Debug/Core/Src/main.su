@@ -1,0 +1,6 @@
+../Core/Src/main.c:14:6:HSI_Init	4	static
+../Core/Src/main.c:35:6:uart_tx_init	4	static
+../Core/Src/main.c:52:6:uart_write	24	static
+../Core/Src/main.c:63:6:uart_write_char	16	static
+../Core/Src/main.c:69:6:uart_write_int	40	static
+../Core/Src/main.c:88:5:main	8	static

@@ -1,0 +1,5 @@
+../Core/Src/bh1750.c:6:13:bh1750_delay	8	static
+../Core/Src/bh1750.c:15:6:BH1750_SendCommand	16	static
+../Core/Src/bh1750.c:20:6:BH1750_Init	8	static
+../Core/Src/bh1750.c:32:10:BH1750_ReadRaw	16	static
+../Core/Src/bh1750.c:44:7:BH1750_ReadLux	8	static
