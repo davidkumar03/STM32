@@ -1,0 +1,1052 @@
+
+Baremetal_MPU.elf:     file format elf32-littlearm
+
+Sections:
+Idx Name          Size      VMA       LMA       File off  Algn
+  0 .isr_vector   00000188  08000000  08000000  00001000  2**0
+                  CONTENTS, ALLOC, LOAD, READONLY, DATA
+  1 .text         000005ac  08000188  08000188  00001188  2**2
+                  CONTENTS, ALLOC, LOAD, READONLY, CODE
+  2 .rodata       00000308  08000734  08000734  00001734  2**2
+                  CONTENTS, ALLOC, LOAD, READONLY, DATA
+  3 .ARM.extab    00000000  08000a3c  08000a3c  00001a44  2**0
+                  CONTENTS, READONLY
+  4 .ARM          00000000  08000a3c  08000a3c  00001a44  2**0
+                  CONTENTS, READONLY
+  5 .preinit_array 00000000  08000a3c  08000a44  00001a44  2**0
+                  CONTENTS, ALLOC, LOAD, DATA
+  6 .init_array   00000004  08000a3c  08000a3c  00001a3c  2**2
+                  CONTENTS, ALLOC, LOAD, READONLY, DATA
+  7 .fini_array   00000004  08000a40  08000a40  00001a40  2**2
+                  CONTENTS, ALLOC, LOAD, READONLY, DATA
+  8 .data         00000000  20000000  20000000  00001a44  2**0
+                  CONTENTS, ALLOC, LOAD, DATA
+  9 .ccmram       00000000  10000000  10000000  00001a44  2**0
+                  CONTENTS
+ 10 .bss          00000038  20000000  20000000  00002000  2**2
+                  ALLOC
+ 11 ._user_heap_stack 00000600  20000038  20000038  00002000  2**0
+                  ALLOC
+ 12 .ARM.attributes 00000030  00000000  00000000  00001a44  2**0
+                  CONTENTS, READONLY
+ 13 .debug_info   00000751  00000000  00000000  00001a74  2**0
+                  CONTENTS, READONLY, DEBUGGING, OCTETS
+ 14 .debug_abbrev 00000239  00000000  00000000  000021c5  2**0
+                  CONTENTS, READONLY, DEBUGGING, OCTETS
+ 15 .debug_aranges 00000118  00000000  00000000  00002400  2**3
+                  CONTENTS, READONLY, DEBUGGING, OCTETS
+ 16 .debug_rnglists 000000cc  00000000  00000000  00002518  2**0
+                  CONTENTS, READONLY, DEBUGGING, OCTETS
+ 17 .debug_macro  000010fe  00000000  00000000  000025e4  2**0
+                  CONTENTS, READONLY, DEBUGGING, OCTETS
+ 18 .debug_line   000008f4  00000000  00000000  000036e2  2**0
+                  CONTENTS, READONLY, DEBUGGING, OCTETS
+ 19 .debug_str    000044f9  00000000  00000000  00003fd6  2**0
+                  CONTENTS, READONLY, DEBUGGING, OCTETS
+ 20 .comment      00000043  00000000  00000000  000084cf  2**0
+                  CONTENTS, READONLY
+ 21 .debug_frame  00000370  00000000  00000000  00008514  2**2
+                  CONTENTS, READONLY, DEBUGGING, OCTETS
+ 22 .debug_line_str 00000066  00000000  00000000  00008884  2**0
+                  CONTENTS, READONLY, DEBUGGING, OCTETS
+
+Disassembly of section .text:
+
+08000188 <__do_global_dtors_aux>:
+ 8000188:	b510      	push	{r4, lr}
+ 800018a:	4c05      	ldr	r4, [pc, #20]	@ (80001a0 <__do_global_dtors_aux+0x18>)
+ 800018c:	7823      	ldrb	r3, [r4, #0]
+ 800018e:	b933      	cbnz	r3, 800019e <__do_global_dtors_aux+0x16>
+ 8000190:	4b04      	ldr	r3, [pc, #16]	@ (80001a4 <__do_global_dtors_aux+0x1c>)
+ 8000192:	b113      	cbz	r3, 800019a <__do_global_dtors_aux+0x12>
+ 8000194:	4804      	ldr	r0, [pc, #16]	@ (80001a8 <__do_global_dtors_aux+0x20>)
+ 8000196:	f3af 8000 	nop.w
+ 800019a:	2301      	movs	r3, #1
+ 800019c:	7023      	strb	r3, [r4, #0]
+ 800019e:	bd10      	pop	{r4, pc}
+ 80001a0:	20000000 	.word	0x20000000
+ 80001a4:	00000000 	.word	0x00000000
+ 80001a8:	0800071c 	.word	0x0800071c
+
+080001ac <frame_dummy>:
+ 80001ac:	b508      	push	{r3, lr}
+ 80001ae:	4b03      	ldr	r3, [pc, #12]	@ (80001bc <frame_dummy+0x10>)
+ 80001b0:	b11b      	cbz	r3, 80001ba <frame_dummy+0xe>
+ 80001b2:	4903      	ldr	r1, [pc, #12]	@ (80001c0 <frame_dummy+0x14>)
+ 80001b4:	4803      	ldr	r0, [pc, #12]	@ (80001c4 <frame_dummy+0x18>)
+ 80001b6:	f3af 8000 	nop.w
+ 80001ba:	bd08      	pop	{r3, pc}
+ 80001bc:	00000000 	.word	0x00000000
+ 80001c0:	20000004 	.word	0x20000004
+ 80001c4:	0800071c 	.word	0x0800071c
+
+080001c8 <DSB>:
+#define LED_PIN           (1U << 14)
+
+/* ============================================================
+ * Barriers
+ * ============================================================ */
+static inline void DSB(void) { __asm volatile ("dsb" ::: "memory"); }
+ 80001c8:	b480      	push	{r7}
+ 80001ca:	af00      	add	r7, sp, #0
+ 80001cc:	f3bf 8f4f 	dsb	sy
+ 80001d0:	bf00      	nop
+ 80001d2:	46bd      	mov	sp, r7
+ 80001d4:	f85d 7b04 	ldr.w	r7, [sp], #4
+ 80001d8:	4770      	bx	lr
+
+080001da <ISB>:
+static inline void ISB(void) { __asm volatile ("isb" ::: "memory"); }
+ 80001da:	b480      	push	{r7}
+ 80001dc:	af00      	add	r7, sp, #0
+ 80001de:	f3bf 8f6f 	isb	sy
+ 80001e2:	bf00      	nop
+ 80001e4:	46bd      	mov	sp, r7
+ 80001e6:	f85d 7b04 	ldr.w	r7, [sp], #4
+ 80001ea:	4770      	bx	lr
+
+080001ec <MPU_ConfigRegion>:
+                      uint32_t baseAddr,
+                      uint32_t sizeField,
+                      uint32_t memType,
+                      uint32_t accessPerm,
+                      uint32_t executeNever)
+{
+ 80001ec:	b480      	push	{r7}
+ 80001ee:	b085      	sub	sp, #20
+ 80001f0:	af00      	add	r7, sp, #0
+ 80001f2:	60f8      	str	r0, [r7, #12]
+ 80001f4:	60b9      	str	r1, [r7, #8]
+ 80001f6:	607a      	str	r2, [r7, #4]
+ 80001f8:	603b      	str	r3, [r7, #0]
+    MPU->RNR  = region;
+ 80001fa:	4a0d      	ldr	r2, [pc, #52]	@ (8000230 <MPU_ConfigRegion+0x44>)
+ 80001fc:	68fb      	ldr	r3, [r7, #12]
+ 80001fe:	6093      	str	r3, [r2, #8]
+    MPU->RBAR = baseAddr;
+ 8000200:	4a0b      	ldr	r2, [pc, #44]	@ (8000230 <MPU_ConfigRegion+0x44>)
+ 8000202:	68bb      	ldr	r3, [r7, #8]
+ 8000204:	60d3      	str	r3, [r2, #12]
+    MPU->RASR = (1U           << MPU_RASR_ENABLE_Pos)
+              | (sizeField    << MPU_RASR_SIZE_Pos)
+ 8000206:	687b      	ldr	r3, [r7, #4]
+ 8000208:	005a      	lsls	r2, r3, #1
+              | (memType      << MPU_RASR_MEMTYPE_Pos)
+ 800020a:	683b      	ldr	r3, [r7, #0]
+ 800020c:	041b      	lsls	r3, r3, #16
+ 800020e:	431a      	orrs	r2, r3
+              | (accessPerm   << MPU_RASR_AP_Pos)
+ 8000210:	69bb      	ldr	r3, [r7, #24]
+ 8000212:	061b      	lsls	r3, r3, #24
+ 8000214:	431a      	orrs	r2, r3
+              | (executeNever << MPU_RASR_XN_Pos);
+ 8000216:	69fb      	ldr	r3, [r7, #28]
+ 8000218:	071b      	lsls	r3, r3, #28
+ 800021a:	4313      	orrs	r3, r2
+    MPU->RASR = (1U           << MPU_RASR_ENABLE_Pos)
+ 800021c:	4a04      	ldr	r2, [pc, #16]	@ (8000230 <MPU_ConfigRegion+0x44>)
+              | (executeNever << MPU_RASR_XN_Pos);
+ 800021e:	f043 0301 	orr.w	r3, r3, #1
+    MPU->RASR = (1U           << MPU_RASR_ENABLE_Pos)
+ 8000222:	6113      	str	r3, [r2, #16]
+}
+ 8000224:	bf00      	nop
+ 8000226:	3714      	adds	r7, #20
+ 8000228:	46bd      	mov	sp, r7
+ 800022a:	f85d 7b04 	ldr.w	r7, [sp], #4
+ 800022e:	4770      	bx	lr
+ 8000230:	e000ed90 	.word	0xe000ed90
+
+08000234 <MPU_Init>:
+
+/* ============================================================
+ * MPU_Init
+ * ============================================================ */
+void MPU_Init(void)
+{
+ 8000234:	b580      	push	{r7, lr}
+ 8000236:	b082      	sub	sp, #8
+ 8000238:	af02      	add	r7, sp, #8
+    MPU->CTRL = 0;
+ 800023a:	4b24      	ldr	r3, [pc, #144]	@ (80002cc <MPU_Init+0x98>)
+ 800023c:	2200      	movs	r2, #0
+ 800023e:	605a      	str	r2, [r3, #4]
+
+    MPU_ConfigRegion(0, 0x08000000U, 19, MEM_NORMAL_WT,        AP_READ_ONLY, 0);
+ 8000240:	2300      	movs	r3, #0
+ 8000242:	9301      	str	r3, [sp, #4]
+ 8000244:	2306      	movs	r3, #6
+ 8000246:	9300      	str	r3, [sp, #0]
+ 8000248:	2302      	movs	r3, #2
+ 800024a:	2213      	movs	r2, #19
+ 800024c:	f04f 6100 	mov.w	r1, #134217728	@ 0x8000000
+ 8000250:	2000      	movs	r0, #0
+ 8000252:	f7ff ffcb 	bl	80001ec <MPU_ConfigRegion>
+    MPU_ConfigRegion(1, 0x20000000U, 16, MEM_NORMAL_WB_WA,     AP_FULL_RW,   1);
+ 8000256:	2301      	movs	r3, #1
+ 8000258:	9301      	str	r3, [sp, #4]
+ 800025a:	2303      	movs	r3, #3
+ 800025c:	9300      	str	r3, [sp, #0]
+ 800025e:	230f      	movs	r3, #15
+ 8000260:	2210      	movs	r2, #16
+ 8000262:	f04f 5100 	mov.w	r1, #536870912	@ 0x20000000
+ 8000266:	2001      	movs	r0, #1
+ 8000268:	f7ff ffc0 	bl	80001ec <MPU_ConfigRegion>
+    MPU_ConfigRegion(2, 0x40000000U, 28, MEM_DEVICE_SHARED,    AP_PRIV_RW,   1);
+ 800026c:	2301      	movs	r3, #1
+ 800026e:	9301      	str	r3, [sp, #4]
+ 8000270:	2301      	movs	r3, #1
+ 8000272:	9300      	str	r3, [sp, #0]
+ 8000274:	2305      	movs	r3, #5
+ 8000276:	221c      	movs	r2, #28
+ 8000278:	f04f 4180 	mov.w	r1, #1073741824	@ 0x40000000
+ 800027c:	2002      	movs	r0, #2
+ 800027e:	f7ff ffb5 	bl	80001ec <MPU_ConfigRegion>
+    MPU_ConfigRegion(3, 0xE0000000U, 19, MEM_STRONGLY_ORDERED, AP_PRIV_RW,   1);
+ 8000282:	2301      	movs	r3, #1
+ 8000284:	9301      	str	r3, [sp, #4]
+ 8000286:	2301      	movs	r3, #1
+ 8000288:	9300      	str	r3, [sp, #0]
+ 800028a:	2300      	movs	r3, #0
+ 800028c:	2213      	movs	r2, #19
+ 800028e:	f04f 4160 	mov.w	r1, #3758096384	@ 0xe0000000
+ 8000292:	2003      	movs	r0, #3
+ 8000294:	f7ff ffaa 	bl	80001ec <MPU_ConfigRegion>
+     *  UNALIGN_TRP=0 — left off by default. Cortex-M4 handles unaligned
+     *                  accesses transparently at a small performance cost.
+     *                  Enable during development to find alignment bugs:
+     *                  uncomment the line below, fix all UNALIGNED faults,
+     *                  then comment it back out for production.            */
+    SCB->CCR |= CCR_DIV_0_TRP;
+ 8000298:	4b0d      	ldr	r3, [pc, #52]	@ (80002d0 <MPU_Init+0x9c>)
+ 800029a:	695b      	ldr	r3, [r3, #20]
+ 800029c:	4a0c      	ldr	r2, [pc, #48]	@ (80002d0 <MPU_Init+0x9c>)
+ 800029e:	f043 0310 	orr.w	r3, r3, #16
+ 80002a2:	6153      	str	r3, [r2, #20]
+    /* SCB->CCR |= CCR_UNALIGN_TRP; */   /* uncomment to trap unaligned  */
+
+    /* [UF-4] Enable all three configurable fault handlers in SHCSR.
+     *  If any one is 0, that fault class escalates to HardFault.          */
+    SCB->SHCSR |= SHCSR_MEMFAULTENA
+ 80002a4:	4b0a      	ldr	r3, [pc, #40]	@ (80002d0 <MPU_Init+0x9c>)
+ 80002a6:	6a5b      	ldr	r3, [r3, #36]	@ 0x24
+ 80002a8:	4a09      	ldr	r2, [pc, #36]	@ (80002d0 <MPU_Init+0x9c>)
+ 80002aa:	f443 23e0 	orr.w	r3, r3, #458752	@ 0x70000
+ 80002ae:	6253      	str	r3, [r2, #36]	@ 0x24
+               |  SHCSR_BUSFAULTENA
+               |  SHCSR_USGFAULTENA;
+
+    DSB();
+ 80002b0:	f7ff ff8a 	bl	80001c8 <DSB>
+    ISB();
+ 80002b4:	f7ff ff91 	bl	80001da <ISB>
+
+    MPU->CTRL = MPU_CTRL_ENABLE | MPU_CTRL_PRIVDEFENA;
+ 80002b8:	4b04      	ldr	r3, [pc, #16]	@ (80002cc <MPU_Init+0x98>)
+ 80002ba:	2205      	movs	r2, #5
+ 80002bc:	605a      	str	r2, [r3, #4]
+
+    DSB();
+ 80002be:	f7ff ff83 	bl	80001c8 <DSB>
+    ISB();
+ 80002c2:	f7ff ff8a 	bl	80001da <ISB>
+}
+ 80002c6:	bf00      	nop
+ 80002c8:	46bd      	mov	sp, r7
+ 80002ca:	bd80      	pop	{r7, pc}
+ 80002cc:	e000ed90 	.word	0xe000ed90
+ 80002d0:	e000ed00 	.word	0xe000ed00
+
+080002d4 <MemManage_Handler_C>:
+
+/* ============================================================
+ * MemManage handler
+ * ============================================================ */
+void MemManage_Handler_C(ExceptionFrame_t *frame)
+{
+ 80002d4:	b480      	push	{r7}
+ 80002d6:	b085      	sub	sp, #20
+ 80002d8:	af00      	add	r7, sp, #0
+ 80002da:	6078      	str	r0, [r7, #4]
+    uint32_t cfsr    = SCB->CFSR;
+ 80002dc:	4b2c      	ldr	r3, [pc, #176]	@ (8000390 <MemManage_Handler_C+0xbc>)
+ 80002de:	6a9b      	ldr	r3, [r3, #40]	@ 0x28
+ 80002e0:	60fb      	str	r3, [r7, #12]
+    g_fault.cfsr     = cfsr;
+ 80002e2:	4a2c      	ldr	r2, [pc, #176]	@ (8000394 <MemManage_Handler_C+0xc0>)
+ 80002e4:	68fb      	ldr	r3, [r7, #12]
+ 80002e6:	6013      	str	r3, [r2, #0]
+    g_fault.hfsr     = SCB->HFSR;
+ 80002e8:	4b29      	ldr	r3, [pc, #164]	@ (8000390 <MemManage_Handler_C+0xbc>)
+ 80002ea:	6adb      	ldr	r3, [r3, #44]	@ 0x2c
+ 80002ec:	4a29      	ldr	r2, [pc, #164]	@ (8000394 <MemManage_Handler_C+0xc0>)
+ 80002ee:	6053      	str	r3, [r2, #4]
+    g_fault.fault_pc = frame->pc;
+ 80002f0:	687b      	ldr	r3, [r7, #4]
+ 80002f2:	699b      	ldr	r3, [r3, #24]
+ 80002f4:	4a27      	ldr	r2, [pc, #156]	@ (8000394 <MemManage_Handler_C+0xc0>)
+ 80002f6:	6113      	str	r3, [r2, #16]
+    g_fault.fault_lr = frame->lr;
+ 80002f8:	687b      	ldr	r3, [r7, #4]
+ 80002fa:	695b      	ldr	r3, [r3, #20]
+ 80002fc:	4a25      	ldr	r2, [pc, #148]	@ (8000394 <MemManage_Handler_C+0xc0>)
+ 80002fe:	6153      	str	r3, [r2, #20]
+
+    if (cfsr & CFSR_IACCVIOL)
+ 8000300:	68fb      	ldr	r3, [r7, #12]
+ 8000302:	f003 0301 	and.w	r3, r3, #1
+ 8000306:	2b00      	cmp	r3, #0
+ 8000308:	d007      	beq.n	800031a <MemManage_Handler_C+0x46>
+    {
+        g_fault.type  = "MemManage: instruction access violation";
+ 800030a:	4b22      	ldr	r3, [pc, #136]	@ (8000394 <MemManage_Handler_C+0xc0>)
+ 800030c:	4a22      	ldr	r2, [pc, #136]	@ (8000398 <MemManage_Handler_C+0xc4>)
+ 800030e:	619a      	str	r2, [r3, #24]
+        g_fault.mmfar = frame->pc;
+ 8000310:	687b      	ldr	r3, [r7, #4]
+ 8000312:	699b      	ldr	r3, [r3, #24]
+ 8000314:	4a1f      	ldr	r2, [pc, #124]	@ (8000394 <MemManage_Handler_C+0xc0>)
+ 8000316:	6093      	str	r3, [r2, #8]
+ 8000318:	e035      	b.n	8000386 <MemManage_Handler_C+0xb2>
+    }
+    else if (cfsr & CFSR_DACCVIOL)
+ 800031a:	68fb      	ldr	r3, [r7, #12]
+ 800031c:	f003 0302 	and.w	r3, r3, #2
+ 8000320:	2b00      	cmp	r3, #0
+ 8000322:	d00f      	beq.n	8000344 <MemManage_Handler_C+0x70>
+    {
+        g_fault.type  = "MemManage: data access violation";
+ 8000324:	4b1b      	ldr	r3, [pc, #108]	@ (8000394 <MemManage_Handler_C+0xc0>)
+ 8000326:	4a1d      	ldr	r2, [pc, #116]	@ (800039c <MemManage_Handler_C+0xc8>)
+ 8000328:	619a      	str	r2, [r3, #24]
+        g_fault.mmfar = (cfsr & CFSR_MMARVALID) ? SCB->MMFAR : 0xFFFFFFFFU;
+ 800032a:	68fb      	ldr	r3, [r7, #12]
+ 800032c:	f003 0380 	and.w	r3, r3, #128	@ 0x80
+ 8000330:	2b00      	cmp	r3, #0
+ 8000332:	d002      	beq.n	800033a <MemManage_Handler_C+0x66>
+ 8000334:	4b16      	ldr	r3, [pc, #88]	@ (8000390 <MemManage_Handler_C+0xbc>)
+ 8000336:	6b5b      	ldr	r3, [r3, #52]	@ 0x34
+ 8000338:	e001      	b.n	800033e <MemManage_Handler_C+0x6a>
+ 800033a:	f04f 33ff 	mov.w	r3, #4294967295	@ 0xffffffff
+ 800033e:	4a15      	ldr	r2, [pc, #84]	@ (8000394 <MemManage_Handler_C+0xc0>)
+ 8000340:	6093      	str	r3, [r2, #8]
+ 8000342:	e020      	b.n	8000386 <MemManage_Handler_C+0xb2>
+    }
+    else if (cfsr & CFSR_MUNSTKERR)
+ 8000344:	68fb      	ldr	r3, [r7, #12]
+ 8000346:	f003 0308 	and.w	r3, r3, #8
+ 800034a:	2b00      	cmp	r3, #0
+ 800034c:	d007      	beq.n	800035e <MemManage_Handler_C+0x8a>
+    {
+        g_fault.type  = "MemManage: unstacking error";
+ 800034e:	4b11      	ldr	r3, [pc, #68]	@ (8000394 <MemManage_Handler_C+0xc0>)
+ 8000350:	4a13      	ldr	r2, [pc, #76]	@ (80003a0 <MemManage_Handler_C+0xcc>)
+ 8000352:	619a      	str	r2, [r3, #24]
+        g_fault.mmfar = 0xFFFFFFFFU;
+ 8000354:	4b0f      	ldr	r3, [pc, #60]	@ (8000394 <MemManage_Handler_C+0xc0>)
+ 8000356:	f04f 32ff 	mov.w	r2, #4294967295	@ 0xffffffff
+ 800035a:	609a      	str	r2, [r3, #8]
+ 800035c:	e013      	b.n	8000386 <MemManage_Handler_C+0xb2>
+    }
+    else if (cfsr & CFSR_MSTKERR)
+ 800035e:	68fb      	ldr	r3, [r7, #12]
+ 8000360:	f003 0310 	and.w	r3, r3, #16
+ 8000364:	2b00      	cmp	r3, #0
+ 8000366:	d007      	beq.n	8000378 <MemManage_Handler_C+0xa4>
+    {
+        g_fault.type  = "MemManage: stacking error";
+ 8000368:	4b0a      	ldr	r3, [pc, #40]	@ (8000394 <MemManage_Handler_C+0xc0>)
+ 800036a:	4a0e      	ldr	r2, [pc, #56]	@ (80003a4 <MemManage_Handler_C+0xd0>)
+ 800036c:	619a      	str	r2, [r3, #24]
+        g_fault.mmfar = 0xFFFFFFFFU;
+ 800036e:	4b09      	ldr	r3, [pc, #36]	@ (8000394 <MemManage_Handler_C+0xc0>)
+ 8000370:	f04f 32ff 	mov.w	r2, #4294967295	@ 0xffffffff
+ 8000374:	609a      	str	r2, [r3, #8]
+ 8000376:	e006      	b.n	8000386 <MemManage_Handler_C+0xb2>
+    }
+    else
+    {
+        g_fault.type  = "MemManage: unknown";
+ 8000378:	4b06      	ldr	r3, [pc, #24]	@ (8000394 <MemManage_Handler_C+0xc0>)
+ 800037a:	4a0b      	ldr	r2, [pc, #44]	@ (80003a8 <MemManage_Handler_C+0xd4>)
+ 800037c:	619a      	str	r2, [r3, #24]
+        g_fault.mmfar = 0xFFFFFFFFU;
+ 800037e:	4b05      	ldr	r3, [pc, #20]	@ (8000394 <MemManage_Handler_C+0xc0>)
+ 8000380:	f04f 32ff 	mov.w	r2, #4294967295	@ 0xffffffff
+ 8000384:	609a      	str	r2, [r3, #8]
+    }
+
+    SCB->CFSR = cfsr;
+ 8000386:	4a02      	ldr	r2, [pc, #8]	@ (8000390 <MemManage_Handler_C+0xbc>)
+ 8000388:	68fb      	ldr	r3, [r7, #12]
+ 800038a:	6293      	str	r3, [r2, #40]	@ 0x28
+    while(1);
+ 800038c:	bf00      	nop
+ 800038e:	e7fd      	b.n	800038c <MemManage_Handler_C+0xb8>
+ 8000390:	e000ed00 	.word	0xe000ed00
+ 8000394:	2000001c 	.word	0x2000001c
+ 8000398:	08000734 	.word	0x08000734
+ 800039c:	0800075c 	.word	0x0800075c
+ 80003a0:	08000780 	.word	0x08000780
+ 80003a4:	0800079c 	.word	0x0800079c
+ 80003a8:	080007b8 	.word	0x080007b8
+
+080003ac <MemManage_Handler>:
+}
+
+__attribute__((naked))
+void MemManage_Handler(void)
+{
+    __asm volatile (
+ 80003ac:	f01e 0f04 	tst.w	lr, #4
+ 80003b0:	bf0c      	ite	eq
+ 80003b2:	f3ef 8008 	mrseq	r0, MSP
+ 80003b6:	f3ef 8009 	mrsne	r0, PSP
+ 80003ba:	f7ff bf8b 	b.w	80002d4 <MemManage_Handler_C>
+        "ite   eq                  \n"
+        "mrseq r0, msp             \n"
+        "mrsne r0, psp             \n"
+        "b     MemManage_Handler_C \n"
+    );
+}
+ 80003be:	bf00      	nop
+
+080003c0 <BusFault_Handler_C>:
+
+/* ============================================================
+ * BusFault handler
+ * ============================================================ */
+void BusFault_Handler_C(ExceptionFrame_t *frame)
+{
+ 80003c0:	b480      	push	{r7}
+ 80003c2:	b085      	sub	sp, #20
+ 80003c4:	af00      	add	r7, sp, #0
+ 80003c6:	6078      	str	r0, [r7, #4]
+    uint32_t cfsr    = SCB->CFSR;
+ 80003c8:	4b33      	ldr	r3, [pc, #204]	@ (8000498 <BusFault_Handler_C+0xd8>)
+ 80003ca:	6a9b      	ldr	r3, [r3, #40]	@ 0x28
+ 80003cc:	60fb      	str	r3, [r7, #12]
+    g_fault.cfsr     = cfsr;
+ 80003ce:	4a33      	ldr	r2, [pc, #204]	@ (800049c <BusFault_Handler_C+0xdc>)
+ 80003d0:	68fb      	ldr	r3, [r7, #12]
+ 80003d2:	6013      	str	r3, [r2, #0]
+    g_fault.hfsr     = SCB->HFSR;
+ 80003d4:	4b30      	ldr	r3, [pc, #192]	@ (8000498 <BusFault_Handler_C+0xd8>)
+ 80003d6:	6adb      	ldr	r3, [r3, #44]	@ 0x2c
+ 80003d8:	4a30      	ldr	r2, [pc, #192]	@ (800049c <BusFault_Handler_C+0xdc>)
+ 80003da:	6053      	str	r3, [r2, #4]
+    g_fault.fault_pc = frame->pc;
+ 80003dc:	687b      	ldr	r3, [r7, #4]
+ 80003de:	699b      	ldr	r3, [r3, #24]
+ 80003e0:	4a2e      	ldr	r2, [pc, #184]	@ (800049c <BusFault_Handler_C+0xdc>)
+ 80003e2:	6113      	str	r3, [r2, #16]
+    g_fault.fault_lr = frame->lr;
+ 80003e4:	687b      	ldr	r3, [r7, #4]
+ 80003e6:	695b      	ldr	r3, [r3, #20]
+ 80003e8:	4a2c      	ldr	r2, [pc, #176]	@ (800049c <BusFault_Handler_C+0xdc>)
+ 80003ea:	6153      	str	r3, [r2, #20]
+
+    if (cfsr & CFSR_IBUSERR)
+ 80003ec:	68fb      	ldr	r3, [r7, #12]
+ 80003ee:	f403 7380 	and.w	r3, r3, #256	@ 0x100
+ 80003f2:	2b00      	cmp	r3, #0
+ 80003f4:	d007      	beq.n	8000406 <BusFault_Handler_C+0x46>
+    {
+        g_fault.type = "BusFault: instruction bus error";
+ 80003f6:	4b29      	ldr	r3, [pc, #164]	@ (800049c <BusFault_Handler_C+0xdc>)
+ 80003f8:	4a29      	ldr	r2, [pc, #164]	@ (80004a0 <BusFault_Handler_C+0xe0>)
+ 80003fa:	619a      	str	r2, [r3, #24]
+        g_fault.bfar = frame->pc;
+ 80003fc:	687b      	ldr	r3, [r7, #4]
+ 80003fe:	699b      	ldr	r3, [r3, #24]
+ 8000400:	4a26      	ldr	r2, [pc, #152]	@ (800049c <BusFault_Handler_C+0xdc>)
+ 8000402:	60d3      	str	r3, [r2, #12]
+ 8000404:	e042      	b.n	800048c <BusFault_Handler_C+0xcc>
+    }
+    else if (cfsr & CFSR_PRECISERR)
+ 8000406:	68fb      	ldr	r3, [r7, #12]
+ 8000408:	f403 7300 	and.w	r3, r3, #512	@ 0x200
+ 800040c:	2b00      	cmp	r3, #0
+ 800040e:	d00f      	beq.n	8000430 <BusFault_Handler_C+0x70>
+    {
+        g_fault.type = "BusFault: precise data bus error";
+ 8000410:	4b22      	ldr	r3, [pc, #136]	@ (800049c <BusFault_Handler_C+0xdc>)
+ 8000412:	4a24      	ldr	r2, [pc, #144]	@ (80004a4 <BusFault_Handler_C+0xe4>)
+ 8000414:	619a      	str	r2, [r3, #24]
+        g_fault.bfar = (cfsr & CFSR_BFARVALID) ? SCB->BFAR : 0xFFFFFFFFU;
+ 8000416:	68fb      	ldr	r3, [r7, #12]
+ 8000418:	f403 4300 	and.w	r3, r3, #32768	@ 0x8000
+ 800041c:	2b00      	cmp	r3, #0
+ 800041e:	d002      	beq.n	8000426 <BusFault_Handler_C+0x66>
+ 8000420:	4b1d      	ldr	r3, [pc, #116]	@ (8000498 <BusFault_Handler_C+0xd8>)
+ 8000422:	6b9b      	ldr	r3, [r3, #56]	@ 0x38
+ 8000424:	e001      	b.n	800042a <BusFault_Handler_C+0x6a>
+ 8000426:	f04f 33ff 	mov.w	r3, #4294967295	@ 0xffffffff
+ 800042a:	4a1c      	ldr	r2, [pc, #112]	@ (800049c <BusFault_Handler_C+0xdc>)
+ 800042c:	60d3      	str	r3, [r2, #12]
+ 800042e:	e02d      	b.n	800048c <BusFault_Handler_C+0xcc>
+    }
+    else if (cfsr & CFSR_IMPRECISERR)
+ 8000430:	68fb      	ldr	r3, [r7, #12]
+ 8000432:	f403 6380 	and.w	r3, r3, #1024	@ 0x400
+ 8000436:	2b00      	cmp	r3, #0
+ 8000438:	d007      	beq.n	800044a <BusFault_Handler_C+0x8a>
+    {
+        g_fault.type = "BusFault: imprecise — add DSB or use Device region";
+ 800043a:	4b18      	ldr	r3, [pc, #96]	@ (800049c <BusFault_Handler_C+0xdc>)
+ 800043c:	4a1a      	ldr	r2, [pc, #104]	@ (80004a8 <BusFault_Handler_C+0xe8>)
+ 800043e:	619a      	str	r2, [r3, #24]
+        g_fault.bfar = 0xFFFFFFFFU;
+ 8000440:	4b16      	ldr	r3, [pc, #88]	@ (800049c <BusFault_Handler_C+0xdc>)
+ 8000442:	f04f 32ff 	mov.w	r2, #4294967295	@ 0xffffffff
+ 8000446:	60da      	str	r2, [r3, #12]
+ 8000448:	e020      	b.n	800048c <BusFault_Handler_C+0xcc>
+    }
+    else if (cfsr & CFSR_UNSTKERR)
+ 800044a:	68fb      	ldr	r3, [r7, #12]
+ 800044c:	f403 6300 	and.w	r3, r3, #2048	@ 0x800
+ 8000450:	2b00      	cmp	r3, #0
+ 8000452:	d007      	beq.n	8000464 <BusFault_Handler_C+0xa4>
+    {
+        g_fault.type = "BusFault: unstacking error";
+ 8000454:	4b11      	ldr	r3, [pc, #68]	@ (800049c <BusFault_Handler_C+0xdc>)
+ 8000456:	4a15      	ldr	r2, [pc, #84]	@ (80004ac <BusFault_Handler_C+0xec>)
+ 8000458:	619a      	str	r2, [r3, #24]
+        g_fault.bfar = 0xFFFFFFFFU;
+ 800045a:	4b10      	ldr	r3, [pc, #64]	@ (800049c <BusFault_Handler_C+0xdc>)
+ 800045c:	f04f 32ff 	mov.w	r2, #4294967295	@ 0xffffffff
+ 8000460:	60da      	str	r2, [r3, #12]
+ 8000462:	e013      	b.n	800048c <BusFault_Handler_C+0xcc>
+    }
+    else if (cfsr & CFSR_STKERR)
+ 8000464:	68fb      	ldr	r3, [r7, #12]
+ 8000466:	f403 5380 	and.w	r3, r3, #4096	@ 0x1000
+ 800046a:	2b00      	cmp	r3, #0
+ 800046c:	d007      	beq.n	800047e <BusFault_Handler_C+0xbe>
+    {
+        g_fault.type = "BusFault: stacking error";
+ 800046e:	4b0b      	ldr	r3, [pc, #44]	@ (800049c <BusFault_Handler_C+0xdc>)
+ 8000470:	4a0f      	ldr	r2, [pc, #60]	@ (80004b0 <BusFault_Handler_C+0xf0>)
+ 8000472:	619a      	str	r2, [r3, #24]
+        g_fault.bfar = 0xFFFFFFFFU;
+ 8000474:	4b09      	ldr	r3, [pc, #36]	@ (800049c <BusFault_Handler_C+0xdc>)
+ 8000476:	f04f 32ff 	mov.w	r2, #4294967295	@ 0xffffffff
+ 800047a:	60da      	str	r2, [r3, #12]
+ 800047c:	e006      	b.n	800048c <BusFault_Handler_C+0xcc>
+    }
+    else
+    {
+        g_fault.type = "BusFault: unknown";
+ 800047e:	4b07      	ldr	r3, [pc, #28]	@ (800049c <BusFault_Handler_C+0xdc>)
+ 8000480:	4a0c      	ldr	r2, [pc, #48]	@ (80004b4 <BusFault_Handler_C+0xf4>)
+ 8000482:	619a      	str	r2, [r3, #24]
+        g_fault.bfar = 0xFFFFFFFFU;
+ 8000484:	4b05      	ldr	r3, [pc, #20]	@ (800049c <BusFault_Handler_C+0xdc>)
+ 8000486:	f04f 32ff 	mov.w	r2, #4294967295	@ 0xffffffff
+ 800048a:	60da      	str	r2, [r3, #12]
+    }
+
+    SCB->CFSR = cfsr;
+ 800048c:	4a02      	ldr	r2, [pc, #8]	@ (8000498 <BusFault_Handler_C+0xd8>)
+ 800048e:	68fb      	ldr	r3, [r7, #12]
+ 8000490:	6293      	str	r3, [r2, #40]	@ 0x28
+    while(1);
+ 8000492:	bf00      	nop
+ 8000494:	e7fd      	b.n	8000492 <BusFault_Handler_C+0xd2>
+ 8000496:	bf00      	nop
+ 8000498:	e000ed00 	.word	0xe000ed00
+ 800049c:	2000001c 	.word	0x2000001c
+ 80004a0:	080007cc 	.word	0x080007cc
+ 80004a4:	080007ec 	.word	0x080007ec
+ 80004a8:	08000810 	.word	0x08000810
+ 80004ac:	08000848 	.word	0x08000848
+ 80004b0:	08000864 	.word	0x08000864
+ 80004b4:	08000880 	.word	0x08000880
+
+080004b8 <BusFault_Handler>:
+}
+
+__attribute__((naked))
+void BusFault_Handler(void)
+{
+    __asm volatile (
+ 80004b8:	f01e 0f04 	tst.w	lr, #4
+ 80004bc:	bf0c      	ite	eq
+ 80004be:	f3ef 8008 	mrseq	r0, MSP
+ 80004c2:	f3ef 8009 	mrsne	r0, PSP
+ 80004c6:	f7ff bf7b 	b.w	80003c0 <BusFault_Handler_C>
+        "ite   eq                  \n"
+        "mrseq r0, msp             \n"
+        "mrsne r0, psp             \n"
+        "b     BusFault_Handler_C  \n"
+    );
+}
+ 80004ca:	bf00      	nop
+
+080004cc <UsageFault_Handler_C>:
+ *  fault_pc = the exact instruction that caused the fault.
+ *  There is NO address register for UsageFault (no MMFAR/BFAR
+ *  equivalent) — the faulting address is always fault_pc itself.
+ * ============================================================ */
+void UsageFault_Handler_C(ExceptionFrame_t *frame)
+{
+ 80004cc:	b480      	push	{r7}
+ 80004ce:	b085      	sub	sp, #20
+ 80004d0:	af00      	add	r7, sp, #0
+ 80004d2:	6078      	str	r0, [r7, #4]
+    uint32_t cfsr    = SCB->CFSR;
+ 80004d4:	4b2b      	ldr	r3, [pc, #172]	@ (8000584 <UsageFault_Handler_C+0xb8>)
+ 80004d6:	6a9b      	ldr	r3, [r3, #40]	@ 0x28
+ 80004d8:	60fb      	str	r3, [r7, #12]
+    g_fault.cfsr     = cfsr;
+ 80004da:	4a2b      	ldr	r2, [pc, #172]	@ (8000588 <UsageFault_Handler_C+0xbc>)
+ 80004dc:	68fb      	ldr	r3, [r7, #12]
+ 80004de:	6013      	str	r3, [r2, #0]
+    g_fault.hfsr     = SCB->HFSR;
+ 80004e0:	4b28      	ldr	r3, [pc, #160]	@ (8000584 <UsageFault_Handler_C+0xb8>)
+ 80004e2:	6adb      	ldr	r3, [r3, #44]	@ 0x2c
+ 80004e4:	4a28      	ldr	r2, [pc, #160]	@ (8000588 <UsageFault_Handler_C+0xbc>)
+ 80004e6:	6053      	str	r3, [r2, #4]
+    g_fault.fault_pc = frame->pc;   /* instruction that caused the fault */
+ 80004e8:	687b      	ldr	r3, [r7, #4]
+ 80004ea:	699b      	ldr	r3, [r3, #24]
+ 80004ec:	4a26      	ldr	r2, [pc, #152]	@ (8000588 <UsageFault_Handler_C+0xbc>)
+ 80004ee:	6113      	str	r3, [r2, #16]
+    g_fault.fault_lr = frame->lr;
+ 80004f0:	687b      	ldr	r3, [r7, #4]
+ 80004f2:	695b      	ldr	r3, [r3, #20]
+ 80004f4:	4a24      	ldr	r2, [pc, #144]	@ (8000588 <UsageFault_Handler_C+0xbc>)
+ 80004f6:	6153      	str	r3, [r2, #20]
+    g_fault.mmfar    = 0xFFFFFFFFU; /* not applicable for UsageFault     */
+ 80004f8:	4b23      	ldr	r3, [pc, #140]	@ (8000588 <UsageFault_Handler_C+0xbc>)
+ 80004fa:	f04f 32ff 	mov.w	r2, #4294967295	@ 0xffffffff
+ 80004fe:	609a      	str	r2, [r3, #8]
+    g_fault.bfar     = 0xFFFFFFFFU;
+ 8000500:	4b21      	ldr	r3, [pc, #132]	@ (8000588 <UsageFault_Handler_C+0xbc>)
+ 8000502:	f04f 32ff 	mov.w	r2, #4294967295	@ 0xffffffff
+ 8000506:	60da      	str	r2, [r3, #12]
+
+    if (cfsr & CFSR_DIVBYZERO)
+ 8000508:	68fb      	ldr	r3, [r7, #12]
+ 800050a:	f003 7300 	and.w	r3, r3, #33554432	@ 0x2000000
+ 800050e:	2b00      	cmp	r3, #0
+ 8000510:	d003      	beq.n	800051a <UsageFault_Handler_C+0x4e>
+    {
+        /* SDIV or UDIV instruction with denominator = 0.
+         * Requires CCR.DIV_0_TRP = 1 to trap (set in MPU_Init).
+         * fault_pc = address of the SDIV/UDIV instruction.
+         * CFSR raw = 0x02000000 (bit 25).                          */
+        g_fault.type = "UsageFault: divide by zero (DIVBYZERO)";
+ 8000512:	4b1d      	ldr	r3, [pc, #116]	@ (8000588 <UsageFault_Handler_C+0xbc>)
+ 8000514:	4a1d      	ldr	r2, [pc, #116]	@ (800058c <UsageFault_Handler_C+0xc0>)
+ 8000516:	619a      	str	r2, [r3, #24]
+ 8000518:	e02f      	b.n	800057a <UsageFault_Handler_C+0xae>
+    }
+    else if (cfsr & CFSR_UNALIGNED)
+ 800051a:	68fb      	ldr	r3, [r7, #12]
+ 800051c:	f003 7380 	and.w	r3, r3, #16777216	@ 0x1000000
+ 8000520:	2b00      	cmp	r3, #0
+ 8000522:	d003      	beq.n	800052c <UsageFault_Handler_C+0x60>
+    {
+        /* Unaligned word/halfword memory access.
+         * Requires CCR.UNALIGN_TRP = 1 to trap.
+         * fault_pc = the LDR/STR with the misaligned address.
+         * CFSR raw = 0x01000000 (bit 24).                          */
+        g_fault.type = "UsageFault: unaligned memory access (UNALIGNED)";
+ 8000524:	4b18      	ldr	r3, [pc, #96]	@ (8000588 <UsageFault_Handler_C+0xbc>)
+ 8000526:	4a1a      	ldr	r2, [pc, #104]	@ (8000590 <UsageFault_Handler_C+0xc4>)
+ 8000528:	619a      	str	r2, [r3, #24]
+ 800052a:	e026      	b.n	800057a <UsageFault_Handler_C+0xae>
+    }
+    else if (cfsr & CFSR_NOCP)
+ 800052c:	68fb      	ldr	r3, [r7, #12]
+ 800052e:	f403 2300 	and.w	r3, r3, #524288	@ 0x80000
+ 8000532:	2b00      	cmp	r3, #0
+ 8000534:	d003      	beq.n	800053e <UsageFault_Handler_C+0x72>
+    {
+        /* FPU instruction when CP10/CP11 not enabled in CPACR.
+         * Fix: SCB->CPACR |= (0xF << 20) in Reset_Handler.
+         * fault_pc = the VLDR/VADD/VMUL/etc instruction.
+         * CFSR raw = 0x00080000 (bit 19).                          */
+        g_fault.type = "UsageFault: FPU disabled — set CPACR CP10/CP11 (NOCP)";
+ 8000536:	4b14      	ldr	r3, [pc, #80]	@ (8000588 <UsageFault_Handler_C+0xbc>)
+ 8000538:	4a16      	ldr	r2, [pc, #88]	@ (8000594 <UsageFault_Handler_C+0xc8>)
+ 800053a:	619a      	str	r2, [r3, #24]
+ 800053c:	e01d      	b.n	800057a <UsageFault_Handler_C+0xae>
+    }
+    else if (cfsr & CFSR_INVPC)
+ 800053e:	68fb      	ldr	r3, [r7, #12]
+ 8000540:	f403 2380 	and.w	r3, r3, #262144	@ 0x40000
+ 8000544:	2b00      	cmp	r3, #0
+ 8000546:	d003      	beq.n	8000550 <UsageFault_Handler_C+0x84>
+    {
+        /* Bad EXC_RETURN value on exception return.
+         * Happens when stacked LR is corrupted or tampered with.
+         * fault_pc = the bad EXC_RETURN value that was loaded into PC.
+         * CFSR raw = 0x00040000 (bit 18).                          */
+        g_fault.type = "UsageFault: invalid PC on exception return (INVPC)";
+ 8000548:	4b0f      	ldr	r3, [pc, #60]	@ (8000588 <UsageFault_Handler_C+0xbc>)
+ 800054a:	4a13      	ldr	r2, [pc, #76]	@ (8000598 <UsageFault_Handler_C+0xcc>)
+ 800054c:	619a      	str	r2, [r3, #24]
+ 800054e:	e014      	b.n	800057a <UsageFault_Handler_C+0xae>
+    }
+    else if (cfsr & CFSR_INVSTATE)
+ 8000550:	68fb      	ldr	r3, [r7, #12]
+ 8000552:	f403 3300 	and.w	r3, r3, #131072	@ 0x20000
+ 8000556:	2b00      	cmp	r3, #0
+ 8000558:	d003      	beq.n	8000562 <UsageFault_Handler_C+0x96>
+        /* CPU tried to execute in ARM state (Thumb bit = 0).
+         * Cortex-M4 only supports Thumb. EPSR.T must always be 1.
+         * Most common cause: function pointer with LSB=0 (missing Thumb bit).
+         * fault_pc = the BX/BLX that attempted the ARM-mode switch.
+         * CFSR raw = 0x00020000 (bit 17).                          */
+        g_fault.type = "UsageFault: invalid execution state (INVSTATE)";
+ 800055a:	4b0b      	ldr	r3, [pc, #44]	@ (8000588 <UsageFault_Handler_C+0xbc>)
+ 800055c:	4a0f      	ldr	r2, [pc, #60]	@ (800059c <UsageFault_Handler_C+0xd0>)
+ 800055e:	619a      	str	r2, [r3, #24]
+ 8000560:	e00b      	b.n	800057a <UsageFault_Handler_C+0xae>
+    }
+    else if (cfsr & CFSR_UNDEFINSTR)
+ 8000562:	68fb      	ldr	r3, [r7, #12]
+ 8000564:	f403 3380 	and.w	r3, r3, #65536	@ 0x10000
+ 8000568:	2b00      	cmp	r3, #0
+ 800056a:	d003      	beq.n	8000574 <UsageFault_Handler_C+0xa8>
+    {
+        /* CPU fetched an opcode it does not understand.
+         * Examples: ARMv8 instructions, intentional UDF, bad compiler output.
+         * fault_pc = address of the undefined opcode in Flash.
+         * CFSR raw = 0x00010000 (bit 16).                          */
+        g_fault.type = "UsageFault: undefined instruction (UNDEFINSTR)";
+ 800056c:	4b06      	ldr	r3, [pc, #24]	@ (8000588 <UsageFault_Handler_C+0xbc>)
+ 800056e:	4a0c      	ldr	r2, [pc, #48]	@ (80005a0 <UsageFault_Handler_C+0xd4>)
+ 8000570:	619a      	str	r2, [r3, #24]
+ 8000572:	e002      	b.n	800057a <UsageFault_Handler_C+0xae>
+    }
+    else
+    {
+        g_fault.type = "UsageFault: unknown UFSR bits";
+ 8000574:	4b04      	ldr	r3, [pc, #16]	@ (8000588 <UsageFault_Handler_C+0xbc>)
+ 8000576:	4a0b      	ldr	r2, [pc, #44]	@ (80005a4 <UsageFault_Handler_C+0xd8>)
+ 8000578:	619a      	str	r2, [r3, #24]
+    }
+
+    /* Clear UFSR bits by writing 1 to each set bit.
+     * Without clearing, the fault fires again on any attempt to return. */
+    SCB->CFSR = cfsr;
+ 800057a:	4a02      	ldr	r2, [pc, #8]	@ (8000584 <UsageFault_Handler_C+0xb8>)
+ 800057c:	68fb      	ldr	r3, [r7, #12]
+ 800057e:	6293      	str	r3, [r2, #40]	@ 0x28
+
+    /* Breakpoint here — watch g_fault in debugger:
+     *   g_fault.type     — which UsageFault sub-type fired
+     *   g_fault.fault_pc — exact address of the faulting instruction
+     *   g_fault.cfsr     — raw CFSR value for manual bit inspection   */
+    while(1);
+ 8000580:	bf00      	nop
+ 8000582:	e7fd      	b.n	8000580 <UsageFault_Handler_C+0xb4>
+ 8000584:	e000ed00 	.word	0xe000ed00
+ 8000588:	2000001c 	.word	0x2000001c
+ 800058c:	08000894 	.word	0x08000894
+ 8000590:	080008bc 	.word	0x080008bc
+ 8000594:	080008ec 	.word	0x080008ec
+ 8000598:	08000924 	.word	0x08000924
+ 800059c:	08000958 	.word	0x08000958
+ 80005a0:	08000988 	.word	0x08000988
+ 80005a4:	080009b8 	.word	0x080009b8
+
+080005a8 <UsageFault_Handler>:
+}
+
+__attribute__((naked))
+void UsageFault_Handler(void)
+{
+    __asm volatile (
+ 80005a8:	f01e 0f04 	tst.w	lr, #4
+ 80005ac:	bf0c      	ite	eq
+ 80005ae:	f3ef 8008 	mrseq	r0, MSP
+ 80005b2:	f3ef 8009 	mrsne	r0, PSP
+ 80005b6:	f7ff bf89 	b.w	80004cc <UsageFault_Handler_C>
+        "ite   eq                   \n"
+        "mrseq r0, msp              \n"  /* frame pointer = MSP           */
+        "mrsne r0, psp              \n"  /* frame pointer = PSP           */
+        "b     UsageFault_Handler_C \n"
+    );
+}
+ 80005ba:	bf00      	nop
+
+080005bc <HardFault_Handler>:
+
+/* ============================================================
+ * HardFault handler
+ * ============================================================ */
+void HardFault_Handler(void)
+{
+ 80005bc:	b480      	push	{r7}
+ 80005be:	b083      	sub	sp, #12
+ 80005c0:	af00      	add	r7, sp, #0
+    volatile uint32_t hfsr = SCB->HFSR;
+ 80005c2:	4b12      	ldr	r3, [pc, #72]	@ (800060c <HardFault_Handler+0x50>)
+ 80005c4:	6adb      	ldr	r3, [r3, #44]	@ 0x2c
+ 80005c6:	607b      	str	r3, [r7, #4]
+    volatile uint32_t cfsr = SCB->CFSR;
+ 80005c8:	4b10      	ldr	r3, [pc, #64]	@ (800060c <HardFault_Handler+0x50>)
+ 80005ca:	6a9b      	ldr	r3, [r3, #40]	@ 0x28
+ 80005cc:	603b      	str	r3, [r7, #0]
+    g_fault.hfsr = hfsr;
+ 80005ce:	687b      	ldr	r3, [r7, #4]
+ 80005d0:	4a0f      	ldr	r2, [pc, #60]	@ (8000610 <HardFault_Handler+0x54>)
+ 80005d2:	6053      	str	r3, [r2, #4]
+    g_fault.cfsr = cfsr;
+ 80005d4:	683b      	ldr	r3, [r7, #0]
+ 80005d6:	4a0e      	ldr	r2, [pc, #56]	@ (8000610 <HardFault_Handler+0x54>)
+ 80005d8:	6013      	str	r3, [r2, #0]
+
+    if      (hfsr & HFSR_FORCED)  { g_fault.type = "HardFault: escalated — check CFSR bits"; }
+ 80005da:	687b      	ldr	r3, [r7, #4]
+ 80005dc:	f003 4380 	and.w	r3, r3, #1073741824	@ 0x40000000
+ 80005e0:	2b00      	cmp	r3, #0
+ 80005e2:	d003      	beq.n	80005ec <HardFault_Handler+0x30>
+ 80005e4:	4b0a      	ldr	r3, [pc, #40]	@ (8000610 <HardFault_Handler+0x54>)
+ 80005e6:	4a0b      	ldr	r2, [pc, #44]	@ (8000614 <HardFault_Handler+0x58>)
+ 80005e8:	619a      	str	r2, [r3, #24]
+ 80005ea:	e00c      	b.n	8000606 <HardFault_Handler+0x4a>
+    else if (hfsr & HFSR_VECTTBL) { g_fault.type = "HardFault: vector table read error"; }
+ 80005ec:	687b      	ldr	r3, [r7, #4]
+ 80005ee:	f003 0302 	and.w	r3, r3, #2
+ 80005f2:	2b00      	cmp	r3, #0
+ 80005f4:	d003      	beq.n	80005fe <HardFault_Handler+0x42>
+ 80005f6:	4b06      	ldr	r3, [pc, #24]	@ (8000610 <HardFault_Handler+0x54>)
+ 80005f8:	4a07      	ldr	r2, [pc, #28]	@ (8000618 <HardFault_Handler+0x5c>)
+ 80005fa:	619a      	str	r2, [r3, #24]
+ 80005fc:	e003      	b.n	8000606 <HardFault_Handler+0x4a>
+    else                           { g_fault.type = "HardFault: unknown"; }
+ 80005fe:	4b04      	ldr	r3, [pc, #16]	@ (8000610 <HardFault_Handler+0x54>)
+ 8000600:	4a06      	ldr	r2, [pc, #24]	@ (800061c <HardFault_Handler+0x60>)
+ 8000602:	619a      	str	r2, [r3, #24]
+
+    while(1);
+ 8000604:	bf00      	nop
+ 8000606:	bf00      	nop
+ 8000608:	e7fd      	b.n	8000606 <HardFault_Handler+0x4a>
+ 800060a:	bf00      	nop
+ 800060c:	e000ed00 	.word	0xe000ed00
+ 8000610:	2000001c 	.word	0x2000001c
+ 8000614:	080009d8 	.word	0x080009d8
+ 8000618:	08000a04 	.word	0x08000a04
+ 800061c:	08000a28 	.word	0x08000a28
+
+08000620 <main>:
+
+/* ============================================================
+ * main
+ * ============================================================ */
+int main(void)
+{
+ 8000620:	b580      	push	{r7, lr}
+ 8000622:	b082      	sub	sp, #8
+ 8000624:	af00      	add	r7, sp, #0
+    MPU_Init();
+ 8000626:	f7ff fe05 	bl	8000234 <MPU_Init>
+
+    AHB_ENABLE  |= GPIOBEN;
+ 800062a:	4b11      	ldr	r3, [pc, #68]	@ (8000670 <main+0x50>)
+ 800062c:	681b      	ldr	r3, [r3, #0]
+ 800062e:	4a10      	ldr	r2, [pc, #64]	@ (8000670 <main+0x50>)
+ 8000630:	f043 0302 	orr.w	r3, r3, #2
+ 8000634:	6013      	str	r3, [r2, #0]
+    GPIOB_MODER |=  (1U << 28);
+ 8000636:	4b0f      	ldr	r3, [pc, #60]	@ (8000674 <main+0x54>)
+ 8000638:	681b      	ldr	r3, [r3, #0]
+ 800063a:	4a0e      	ldr	r2, [pc, #56]	@ (8000674 <main+0x54>)
+ 800063c:	f043 5380 	orr.w	r3, r3, #268435456	@ 0x10000000
+ 8000640:	6013      	str	r3, [r2, #0]
+    GPIOB_MODER &= ~(1U << 29);
+ 8000642:	4b0c      	ldr	r3, [pc, #48]	@ (8000674 <main+0x54>)
+ 8000644:	681b      	ldr	r3, [r3, #0]
+ 8000646:	4a0b      	ldr	r2, [pc, #44]	@ (8000674 <main+0x54>)
+ 8000648:	f023 5300 	bic.w	r3, r3, #536870912	@ 0x20000000
+ 800064c:	6013      	str	r3, [r2, #0]
+    /* test_invstate();          */
+    /* test_undefinstr();        */
+
+    for (;;)
+    {
+        GPIOB_ODR ^= LED_PIN;
+ 800064e:	4b0a      	ldr	r3, [pc, #40]	@ (8000678 <main+0x58>)
+ 8000650:	681b      	ldr	r3, [r3, #0]
+ 8000652:	4a09      	ldr	r2, [pc, #36]	@ (8000678 <main+0x58>)
+ 8000654:	f483 4380 	eor.w	r3, r3, #16384	@ 0x4000
+ 8000658:	6013      	str	r3, [r2, #0]
+        for (int i = 0; i < 100000; i++);
+ 800065a:	2300      	movs	r3, #0
+ 800065c:	607b      	str	r3, [r7, #4]
+ 800065e:	e002      	b.n	8000666 <main+0x46>
+ 8000660:	687b      	ldr	r3, [r7, #4]
+ 8000662:	3301      	adds	r3, #1
+ 8000664:	607b      	str	r3, [r7, #4]
+ 8000666:	687b      	ldr	r3, [r7, #4]
+ 8000668:	4a04      	ldr	r2, [pc, #16]	@ (800067c <main+0x5c>)
+ 800066a:	4293      	cmp	r3, r2
+ 800066c:	ddf8      	ble.n	8000660 <main+0x40>
+        GPIOB_ODR ^= LED_PIN;
+ 800066e:	e7ee      	b.n	800064e <main+0x2e>
+ 8000670:	40023830 	.word	0x40023830
+ 8000674:	40020400 	.word	0x40020400
+ 8000678:	40020414 	.word	0x40020414
+ 800067c:	0001869f 	.word	0x0001869f
+
+08000680 <Reset_Handler>:
+
+  .section .text.Reset_Handler
+  .weak Reset_Handler
+  .type Reset_Handler, %function
+Reset_Handler:
+  ldr   r0, =_estack
+ 8000680:	480d      	ldr	r0, [pc, #52]	@ (80006b8 <LoopForever+0x2>)
+  mov   sp, r0          /* set stack pointer */
+ 8000682:	4685      	mov	sp, r0
+/* Call the clock system initialization function.*/
+  bl  SystemInit
+ 8000684:	f3af 8000 	nop.w
+
+/* Copy the data segment initializers from flash to SRAM */
+  ldr r0, =_sdata
+ 8000688:	480c      	ldr	r0, [pc, #48]	@ (80006bc <LoopForever+0x6>)
+  ldr r1, =_edata
+ 800068a:	490d      	ldr	r1, [pc, #52]	@ (80006c0 <LoopForever+0xa>)
+  ldr r2, =_sidata
+ 800068c:	4a0d      	ldr	r2, [pc, #52]	@ (80006c4 <LoopForever+0xe>)
+  movs r3, #0
+ 800068e:	2300      	movs	r3, #0
+  b LoopCopyDataInit
+ 8000690:	e002      	b.n	8000698 <LoopCopyDataInit>
+
+08000692 <CopyDataInit>:
+
+CopyDataInit:
+  ldr r4, [r2, r3]
+ 8000692:	58d4      	ldr	r4, [r2, r3]
+  str r4, [r0, r3]
+ 8000694:	50c4      	str	r4, [r0, r3]
+  adds r3, r3, #4
+ 8000696:	3304      	adds	r3, #4
+
+08000698 <LoopCopyDataInit>:
+
+LoopCopyDataInit:
+  adds r4, r0, r3
+ 8000698:	18c4      	adds	r4, r0, r3
+  cmp r4, r1
+ 800069a:	428c      	cmp	r4, r1
+  bcc CopyDataInit
+ 800069c:	d3f9      	bcc.n	8000692 <CopyDataInit>
+
+/* Zero fill the bss segment. */
+  ldr r2, =_sbss
+ 800069e:	4a0a      	ldr	r2, [pc, #40]	@ (80006c8 <LoopForever+0x12>)
+  ldr r4, =_ebss
+ 80006a0:	4c0a      	ldr	r4, [pc, #40]	@ (80006cc <LoopForever+0x16>)
+  movs r3, #0
+ 80006a2:	2300      	movs	r3, #0
+  b LoopFillZerobss
+ 80006a4:	e001      	b.n	80006aa <LoopFillZerobss>
+
+080006a6 <FillZerobss>:
+
+FillZerobss:
+  str  r3, [r2]
+ 80006a6:	6013      	str	r3, [r2, #0]
+  adds r2, r2, #4
+ 80006a8:	3204      	adds	r2, #4
+
+080006aa <LoopFillZerobss>:
+
+LoopFillZerobss:
+  cmp r2, r4
+ 80006aa:	42a2      	cmp	r2, r4
+  bcc FillZerobss
+ 80006ac:	d3fb      	bcc.n	80006a6 <FillZerobss>
+
+
+/* Call static constructors */
+  bl __libc_init_array
+ 80006ae:	f000 f811 	bl	80006d4 <__libc_init_array>
+/* Call the application's entry point.*/
+
+  bl main
+ 80006b2:	f7ff ffb5 	bl	8000620 <main>
+
+080006b6 <LoopForever>:
+
+LoopForever:
+  b LoopForever
+ 80006b6:	e7fe      	b.n	80006b6 <LoopForever>
+  ldr   r0, =_estack
+ 80006b8:	20020000 	.word	0x20020000
+  ldr r0, =_sdata
+ 80006bc:	20000000 	.word	0x20000000
+  ldr r1, =_edata
+ 80006c0:	20000000 	.word	0x20000000
+  ldr r2, =_sidata
+ 80006c4:	08000a44 	.word	0x08000a44
+  ldr r2, =_sbss
+ 80006c8:	20000000 	.word	0x20000000
+  ldr r4, =_ebss
+ 80006cc:	20000038 	.word	0x20000038
+
+080006d0 <ADC_IRQHandler>:
+ * @retval : None
+*/
+  .section .text.Default_Handler,"ax",%progbits
+Default_Handler:
+Infinite_Loop:
+  b Infinite_Loop
+ 80006d0:	e7fe      	b.n	80006d0 <ADC_IRQHandler>
+	...
+
+080006d4 <__libc_init_array>:
+ 80006d4:	b570      	push	{r4, r5, r6, lr}
+ 80006d6:	4b0d      	ldr	r3, [pc, #52]	@ (800070c <__libc_init_array+0x38>)
+ 80006d8:	4d0d      	ldr	r5, [pc, #52]	@ (8000710 <__libc_init_array+0x3c>)
+ 80006da:	1b5b      	subs	r3, r3, r5
+ 80006dc:	109c      	asrs	r4, r3, #2
+ 80006de:	2600      	movs	r6, #0
+ 80006e0:	42a6      	cmp	r6, r4
+ 80006e2:	d109      	bne.n	80006f8 <__libc_init_array+0x24>
+ 80006e4:	f000 f81a 	bl	800071c <_init>
+ 80006e8:	4d0a      	ldr	r5, [pc, #40]	@ (8000714 <__libc_init_array+0x40>)
+ 80006ea:	4b0b      	ldr	r3, [pc, #44]	@ (8000718 <__libc_init_array+0x44>)
+ 80006ec:	1b5b      	subs	r3, r3, r5
+ 80006ee:	109c      	asrs	r4, r3, #2
+ 80006f0:	2600      	movs	r6, #0
+ 80006f2:	42a6      	cmp	r6, r4
+ 80006f4:	d105      	bne.n	8000702 <__libc_init_array+0x2e>
+ 80006f6:	bd70      	pop	{r4, r5, r6, pc}
+ 80006f8:	f855 3b04 	ldr.w	r3, [r5], #4
+ 80006fc:	4798      	blx	r3
+ 80006fe:	3601      	adds	r6, #1
+ 8000700:	e7ee      	b.n	80006e0 <__libc_init_array+0xc>
+ 8000702:	f855 3b04 	ldr.w	r3, [r5], #4
+ 8000706:	4798      	blx	r3
+ 8000708:	3601      	adds	r6, #1
+ 800070a:	e7f2      	b.n	80006f2 <__libc_init_array+0x1e>
+ 800070c:	08000a3c 	.word	0x08000a3c
+ 8000710:	08000a3c 	.word	0x08000a3c
+ 8000714:	08000a3c 	.word	0x08000a3c
+ 8000718:	08000a40 	.word	0x08000a40
+
+0800071c <_init>:
+ 800071c:	b5f8      	push	{r3, r4, r5, r6, r7, lr}
+ 800071e:	bf00      	nop
+ 8000720:	bcf8      	pop	{r3, r4, r5, r6, r7}
+ 8000722:	bc08      	pop	{r3}
+ 8000724:	469e      	mov	lr, r3
+ 8000726:	4770      	bx	lr
+
+08000728 <_fini>:
+ 8000728:	b5f8      	push	{r3, r4, r5, r6, r7, lr}
+ 800072a:	bf00      	nop
+ 800072c:	bcf8      	pop	{r3, r4, r5, r6, r7}
+ 800072e:	bc08      	pop	{r3}
+ 8000730:	469e      	mov	lr, r3
+ 8000732:	4770      	bx	lr
