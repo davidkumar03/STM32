@@ -42,10 +42,9 @@ Every fault sub-type has a dedicated test function. Uncomment one in `main()`, f
 |---|---|---|---|
 | `test_mm_daccviol()` | `0x00000082` | `0xDEAD0000` | Write to unmapped address |
 | `test_mm_daccviol_read()` | `0x00000082` | `0xCCCCCCCC` | Read from unmapped address |
-| `test_mm_iaccviol()` | `0x00000001` | `frame->pc` | Jump to XN SRAM |
 | `test_mm_write_flash()` | `0x00000082` | Flash addr | Write to read-only Flash region |
 
-> MM-1, MM-2, MM-4 require `PRIVDEFENA=0`. See notes in `MPU_Init()`.
+> MM-1, MM-2, MM-3 require `PRIVDEFENA=0`. See notes in `MPU_Init()`.
 
 ### BusFault faults — `BusFault_Handler_C`
 
