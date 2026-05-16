@@ -180,7 +180,7 @@ These were real register-level bugs discovered while building this project. Each
 - **MCU:** STM32F405 (Cortex-M4, 168 MHz, 1 MB Flash, 192 KB SRAM)
 - **Toolchain:** `arm-none-eabi-gcc`
 - **Debug:** ST-Link V2 + STM32CubeIDE debugger
-- **No dependencies:** no HAL, no CMSIS, no vendor startup, no linker script from IDE
+- **No dependencies:** no HAL, no CMSIS
 
 ---
 
